@@ -13,7 +13,7 @@ Let the bot say your text out loud.
 ### Start
 
 ```
-cat "BOT_SECRET_TOKEN" >> src/secret.key
+echo "BOT_SECRET_TOKEN" > src/secret.key
 docker-compose up -d
 ```
 
