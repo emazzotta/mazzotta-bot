@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  say-bot:
+    build: .
+    volumes:
+    - ./data:/app/data
