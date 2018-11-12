@@ -3,6 +3,7 @@ FROM python:3.7-alpine3.8
 MAINTAINER Emanuele Mazzotta hello@mazzotta.me
 
 ENV PYTHONPATH /app:$PYTHONPATH
+ENV TZ=Europe/Zurich
 
 RUN mkdir /app
 WORKDIR /app
@@ -15,10 +16,10 @@ RUN apk add --update --no-cache \
     bc \
     espeak \
     ffmpeg \
-    && \
-    rm -rf /var/lib/apt/lists/* /var/cache/apk/*
-
-RUN wget https://raw.githubusercontent.com/emazzotta/dotfiles/master/bin/kw -O /usr/local/bin/kw \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apk/* \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
+    && wget https://raw.githubusercontent.com/emazzotta/dotfiles/master/bin/kw -O /usr/local/bin/kw \
     && chmod 755 /usr/local/bin/kw \
     && wget https://raw.githubusercontent.com/emazzotta/dotfiles/master/bin/progressbar -O /usr/local/bin/progressbar \
     && chmod 755 /usr/local/bin/progressbar
