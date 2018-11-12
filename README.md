@@ -20,6 +20,10 @@ My telegram bot.
 make bootstrap
 ```
 
+### Configure
+
+Configure you `.env`-file.
+
 ### Start
 
 ```

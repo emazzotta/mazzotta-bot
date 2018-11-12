@@ -7,6 +7,7 @@ import shutil
 import tempfile
 from os.path import join
 from sys import platform
+from apscheduler.schedulers.background import BackgroundScheduler
 
 import telebot
 
@@ -77,10 +78,16 @@ def bot_voice(message):
 @bot.message_handler(commands=['zhaw'])
 def zhaw(message):
     chat_id = message.chat.id
-    args = f'kw 10 telegram-formatting'
-    result = os.popen(args).read()
     logger.info(f'Sending zhaw statistics to {chat_id}')
-    bot.send_message(chat_id, result)
+    bot.send_message(chat_id, show_zhaw_statistics())
+
+
+def show_zhaw_statistics():
+    return os.popen(f'kw 10 telegram-formatting').read()
+
+
+def send_zhaw_statistics_to_optimizers():
+    bot.send_message(os.environ.get('OPTIMIZER_CHAT_ID'), show_zhaw_statistics())
 
 
 @bot.message_handler(func=lambda message: is_invalid_command(message))
@@ -99,5 +106,10 @@ def is_invalid_command(message):
 
 
 if __name__ == '__main__':
-    logger.info('Running...')
-    bot.polling()
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(send_zhaw_statistics_to_optimizers, 'cron', day_of_week='mon', hour=8, minute=0)
+    scheduler.start()
+    try:
+        bot.polling()
+    except (KeyboardInterrupt, SystemExit):
+        scheduler.shutdown()
