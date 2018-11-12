@@ -46,6 +46,7 @@ def superhelp(message):
 def say(message):
     chat_id = message.chat.id
     say = message.text.replace('/say', '').strip()
+    logger.info(f'Say command invoked in {chat_id}')
 
     if len(say) == 0:
         bot.send_message(chat_id, f'I need you to tell me what to say. E.g. /say hello')
@@ -65,13 +66,20 @@ def say(message):
             args = f'echo "{say}" | {espeak_cmd} | {ffmpeg_cmd} &> /dev/null'
 
         result = os.popen(args).read()
+        logger.info(f'Sending voice to {chat_id}')
         bot.send_voice(chat_id, open(voice_file, 'rb'))
 
 
 @bot.message_handler(commands=['zhaw'])
 def zhaw(message):
     chat_id = message.chat.id
-    bot.send_message(chat_id, f'You asked me to show you zhaw')
+
+    args = f'kw 10 telegram-formatting'
+    result = os.popen(args).read()
+
+    logger.info(f'Sending zhaw statistics to {chat_id}')
+
+    bot.send_message(chat_id, result)
 
 
 @bot.message_handler(func=lambda message: is_invalid_command(message))
@@ -90,5 +98,5 @@ def is_invalid_command(message):
 
 
 if __name__ == '__main__':
-    logger.info('Starting bot...')
+    logger.info('Running...')
     bot.polling()
