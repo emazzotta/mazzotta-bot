@@ -3,6 +3,7 @@
 
 import logging
 import os
+import re
 import shutil
 import tempfile
 from os.path import join
@@ -49,7 +50,7 @@ def superhelp(message):
 def bot_voice(message):
     chat_id = message.chat.id
     voice_type = 'Zarvox' if message.text.startswith('/say') else 'Cellos'
-    voice_text = message.text.replace('/say', '').replace('/sing', '').strip()
+    voice_text = re.sub(r'^\/[a-z]+(@[a-z]+)?', '', message.text).strip()
     logger.info(f'Bot voice invoked in {chat_id}')
 
     if len(voice_text) == 0:
@@ -109,6 +110,7 @@ if __name__ == '__main__':
     scheduler = BackgroundScheduler()
     scheduler.add_job(send_zhaw_statistics_to_optimizers, 'cron', day_of_week='mon', hour=8, minute=0)
     scheduler.start()
+
     try:
         bot.polling()
     except (KeyboardInterrupt, SystemExit):
