@@ -1,8 +1,5 @@
-secret.key
 .idea
 venv
-data
-
 *.iml
 nohup.out
 *.http

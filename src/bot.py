@@ -66,9 +66,9 @@ def bot_voice(message):
             conversion_cmd = f'lame -m m "{filename}.aiff" "{filename}.mp3"'
             args = f'{cd_cmd} && {say_cmd} && {conversion_cmd} &> /dev/null'
         else:
-            espeak_cmd = f'espeak -s 120 -ven-us+m1 --stdout'
+            espeak_cmd = f'echo "{voice_text}" | espeak -s 120 -ven-us+m1 --stdout'
             ffmpeg_cmd = f'ffmpeg -i - -ar 44100 -ac 2 -ab 192k -f mp3 {voice_file}'
-            args = f'echo "{voice_text}" | {espeak_cmd} | {ffmpeg_cmd} &> /dev/null'
+            args = f'{espeak_cmd} | {ffmpeg_cmd} &> /dev/null'
 
         result = os.popen(args).read()
         logger.info(f'Sending voice to {chat_id}')
