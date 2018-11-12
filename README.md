@@ -6,7 +6,9 @@ My telegram bot.
 
 |Command|Action|
 |---|---|
-|/say|Say the text in a bot voice|
+|/help|Show this text|
+|/say|Ask the bot to say something in a bot voice|
+|/zhaw|Show current ZHAW stats|
 
 ## Getting Started
 
