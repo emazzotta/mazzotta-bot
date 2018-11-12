@@ -16,6 +16,10 @@ all: build
 build:
 	@docker build --file Dockerfile -t emazzotta/mazzotta-bot .
 
+.PHONY: push
+push:
+	@docker push emazzotta/mazzotta-bot
+
 .PHONY: run
 run:
 	@docker run --rm --env-file=.env emazzotta/mazzotta-bot
