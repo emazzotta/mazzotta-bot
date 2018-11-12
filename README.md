@@ -12,11 +12,17 @@ My telegram bot.
 
 ## Getting Started
 
+### Bootstrap
+
+```
+# One-off
+make bootstrap
+```
+
 ### Start
 
 ```
-echo "BOT_SECRET_TOKEN" > src/secret.key
-docker-compose up -d
+make start
 ```
 
 ## Author

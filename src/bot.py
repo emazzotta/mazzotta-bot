@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from os.path import join, realpath, dirname
+import os
+import tempfile
+from os.path import join
+from sys import platform
 
 import telebot
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
-token = open(join(dirname(realpath(__file__)), 'secret.key'), 'r+').read()
-bot = telebot.TeleBot(token)
+bot = telebot.TeleBot(os.environ.get('BOT_API_TOKEN'))
 
 COMMANDS = {
     'help': 'Show this text',
@@ -44,14 +46,26 @@ def superhelp(message):
 def say(message):
     chat_id = message.chat.id
     say = message.text.replace('/say', '').strip()
+
     if len(say) == 0:
         bot.send_message(chat_id, f'I need you to tell me what to say. E.g. /say hello')
     else:
-        bot.send_message(chat_id, f'hello! you asked me to say: {say}')
-        # TODO:
-        # apt-get update && apt-get install -y espeak ffmpeg
-        # echo "hello" | espeak -s 120 -ven-us+m1 --stdout | \
-        # ffmpeg -i - -ar 44100 -ac 2 -ab 192k -f mp3 final.mp3 &> /dev/null
+        temp_path = tempfile.mkdtemp()
+        filename = 'voice'
+        voice_file = join(temp_path, f'{filename}.mp3')
+
+        if platform == 'darwin':
+            cd_cmd = f'cd {temp_path}'
+            say_cmd = f'say -v "Zarvox" "{say}" -o {filename}'
+            conversion_cmd = f'lame -m m "{filename}.aiff" "{filename}.mp3"'
+            args = f'{cd_cmd} && {say_cmd} && {conversion_cmd} &> /dev/null'
+        else:
+            espeak_cmd = f'espeak -s 120 -ven-us+m1 --stdout'
+            ffmpeg_cmd = f'ffmpeg -i - -ar 44100 -ac 2 -ab 192k -f mp3 {voice_file}'
+            args = f'echo "{say}" | {espeak_cmd} | {ffmpeg_cmd} &> /dev/null'
+
+        result = os.popen(args).read()
+        bot.send_voice(chat_id, open(voice_file, 'rb'))
 
 
 @bot.message_handler(commands=['zhaw'])

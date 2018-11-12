@@ -10,6 +10,8 @@ WORKDIR /app
 COPY requirements.txt /app
 COPY src /app/src
 
+RUN apk add --update espeak ffmpeg
+
 RUN pip install -r requirements.txt
 
 CMD ["python", "src/bot.py"]

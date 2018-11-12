@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  say-bot:
+  mazzotta-bot:
     build: .
-    volumes:
-    - ./data:/app/data
+    env_file:
+      - .env
