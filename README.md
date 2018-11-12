@@ -1,6 +1,6 @@
-# Say Bot
+# Mazzotta Bot
 
-Let the bot say your text out loud.
+My telegram bot.
 
 ## Commands
 
