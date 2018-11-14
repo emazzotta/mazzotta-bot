@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/emazzotta/mazzotta-bot.svg?branch=master)](https://travis-ci.org/emazzotta/mazzotta-bot)
+
 # Mazzotta Bot
 
 My telegram bot.
