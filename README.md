@@ -22,7 +22,7 @@ make bootstrap
 
 ### Configure
 
-Configure you `.env`-file.
+Configure your `.env`-file.
 
 ### Start
 
