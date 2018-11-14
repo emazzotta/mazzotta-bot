@@ -2,7 +2,7 @@
 
 # Mazzotta Bot
 
-My telegram bot.
+🤖 My telegram bot with features I find useful in a bot.
 
 ## Commands
 
