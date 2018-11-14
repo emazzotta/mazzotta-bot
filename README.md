@@ -13,18 +13,23 @@ My telegram bot.
 
 ## Getting Started
 
+### Prerequisites
+* Docker 18 or later
+
 ### Bootstrap
 
 ```
-# One-off
-make bootstrap
+# Get the code, cd to mazzotta-bot, setup mazzotta-bot in Docker
+git clone git@github.com:emazzotta/mazzotta-bot.git && \
+    cd mazzotta-bot && \
+    make bootstrap
 ```
 
 ### Configure
 
 Configure your `.env`-file.
 
-### Start
+### Run
 
 ```
 make start
