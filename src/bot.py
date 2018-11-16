@@ -107,7 +107,7 @@ def is_invalid_command(message):
 
 
 def remove_dangerous_characters(voice_text):
-    return re.sub(r'[^a-zA-Z0-9!?:() ]', '', voice_text)
+    return re.sub(r'[^a-zA-Z0-9!@%&*()_-+=.,<>;: ]', '', voice_text)
 
 
 def remove_command(message):
