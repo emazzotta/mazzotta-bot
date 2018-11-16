@@ -10,7 +10,6 @@
 |---|---|
 |/help|Show this text|
 |/say|Ask the bot to say something in a bot voice|
-|/sing|Ask the bot to sing something in a bot voice|
 |/zhaw|Show current ZHAW stats|
 
 ## Getting Started

@@ -19,7 +19,6 @@ bot = telebot.TeleBot(os.environ.get('BOT_API_TOKEN'))
 COMMANDS = {
     'help': 'Show this text',
     'say': 'Ask the bot to say something in a bot voice',
-    'sing': 'Ask the bot to sing something in a bot voice',
     'zhaw': 'Show current ZHAW stats',
 }
 
@@ -50,7 +49,8 @@ def superhelp(message):
 def bot_voice(message):
     chat_id = message.chat.id
     voice_type = 'Zarvox' if message.text.startswith('/say') else 'Cellos'
-    voice_text = re.sub(r'^\/[a-z]+(@[a-z]+)?', '', message.text).strip()
+    voice_text = remove_command(message)
+    voice_text = remove_dangerous_characters(voice_text)
     logger.info(f'Bot voice invoked in {chat_id}')
 
     if len(voice_text) == 0:
@@ -104,6 +104,14 @@ def is_invalid_command(message):
     if not message.text.startswith('/'):
         return False
     return not any(message.text.startswith(f'/{valid}') for valid in COMMANDS.keys())
+
+
+def remove_dangerous_characters(voice_text):
+    return re.sub(r'[^a-zA-Z0-9!?:() ]', '', voice_text)
+
+
+def remove_command(message):
+    return re.sub(r'^\/[a-z]+(@[a-z]+)?', '', message.text).strip()
 
 
 if __name__ == '__main__':
