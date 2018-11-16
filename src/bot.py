@@ -107,11 +107,11 @@ def is_invalid_command(message):
 
 
 def remove_dangerous_characters(voice_text):
-    return re.sub(r'[^a-zA-Z0-9!@%&*()_-+=.,<>;: ]', '', voice_text)
+    return re.sub(r'[^a-zA-Z0-9!@%&*()_+=.,<>;: ]', '', voice_text)
 
 
 def remove_command(message):
-    return re.sub(r'^\/[a-z]+(@[a-z]+)?', '', message.text).strip()
+    return re.sub(r'^/[a-z]+(@[a-z]+)?', '', message.text).strip()
 
 
 if __name__ == '__main__':
