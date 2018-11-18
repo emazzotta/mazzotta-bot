@@ -4,11 +4,26 @@ services:
   mazzotta-bot:
     build: .
     env_file:
-      - .env
+    - .env
+    volumes:
+    - tts-audio-in:/app/in
+    - tts-audio-out:/app/out
 
   development:
     build: .
     env_file:
-      - .env.dev
+    - .env.dev
     volumes:
-      - ./src:/app/src
+    - tts-audio-in:/app/in
+    - tts-audio-out:/app/out
+    - ./src:/app/src
+
+  tts2audio:
+    image: emazzotta/tts2audio
+    volumes:
+    - tts-audio-in:/app/in
+    - tts-audio-out:/app/out
+
+volumes:
+  tts-audio-in:
+  tts-audio-out:

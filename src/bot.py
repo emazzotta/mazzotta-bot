@@ -3,14 +3,13 @@
 
 import logging
 import os
+import random
 import re
-import shutil
-import tempfile
-from os.path import join
-from sys import platform
-from apscheduler.schedulers.background import BackgroundScheduler
+import string
+import time
 
 import telebot
+from apscheduler.schedulers.background import BackgroundScheduler
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -45,35 +44,33 @@ def superhelp(message):
     bot.send_message(chat_id, superhelp_text)
 
 
-@bot.message_handler(commands=['say', 'sing'])
+@bot.message_handler(commands=['say'])
 def bot_voice(message):
     chat_id = message.chat.id
-    voice_type = 'Zarvox' if message.text.startswith('/say') else 'Cellos'
     voice_text = remove_command(message)
     voice_text = remove_dangerous_characters(voice_text)
     logger.info(f'Bot voice invoked in {chat_id}')
 
     if len(voice_text) == 0:
-        bot.send_message(chat_id, f'Okay, but what? E.g. /say hello or /sing hello')
-    else:
-        temp_path = tempfile.mkdtemp()
-        filename = 'voice'
-        voice_file = join(temp_path, f'{filename}.mp3')
+        bot.send_message(chat_id, f'Okay, but what? E.g. /say hello')
+        return
 
-        if platform == 'darwin':
-            cd_cmd = f'cd {temp_path}'
-            say_cmd = f'say -v "{voice_type}" "{voice_text}" -o {filename}'
-            conversion_cmd = f'lame -m m "{filename}.aiff" "{filename}.mp3"'
-            args = f'{cd_cmd} && {say_cmd} && {conversion_cmd} &> /dev/null'
-        else:
-            espeak_cmd = f'echo "{voice_text}" | espeak -s 120 -ven-us+m1 --stdout'
-            ffmpeg_cmd = f'ffmpeg -i - -ar 44100 -ac 2 -ab 192k -f mp3 {voice_file}'
-            args = f'{espeak_cmd} | {ffmpeg_cmd} &> /dev/null'
+    bot.send_message(chat_id, "Hold on! I'm recording myself...")
+    file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
+    text_file = f'/app/in/{file_name}.txt'
+    open(text_file, 'w+').write(voice_text)
 
-        result = os.popen(args).read()
-        logger.info(f'Sending voice to {chat_id}')
-        bot.send_voice(chat_id, open(voice_file, 'rb'))
-        shutil.rmtree(temp_path)
+    voice_file = f'/app/out/{file_name}.mp3'
+    sleep_times = 0.0
+    while not os.path.exists(voice_file):
+        if sleep_times > 10:
+            bot.send_message(chat_id, f'Sorry, recording failed')
+            return
+        sleep_duration = 0.2
+        sleep_times += sleep_duration
+        time.sleep(sleep_duration)
+
+    bot.send_voice(chat_id, open(voice_file, 'rb'))
 
 
 @bot.message_handler(commands=['zhaw'])

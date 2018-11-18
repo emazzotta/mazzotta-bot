@@ -1,4 +1,4 @@
-# Timetracker build file.
+# Mazzotta bot build file.
 #
 # All commands necessary to go from development to release candidate should be here.
 
