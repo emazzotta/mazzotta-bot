@@ -47,7 +47,7 @@ def superhelp(message):
 @bot.message_handler(commands=['say'])
 def bot_voice(message):
     chat_id = message.chat.id
-    voice_text = remove_command(message)
+    voice_text = remove_command(message.text)
     voice_text = remove_dangerous_characters(voice_text)
     logger.info(f'Bot voice invoked in {chat_id}')
 
@@ -107,8 +107,8 @@ def remove_dangerous_characters(voice_text):
     return re.sub(r'[^a-zA-Z0-9!@%&*()_+=.,<>;: ]', '', voice_text)
 
 
-def remove_command(message):
-    return re.sub(r'^/[a-z]+(@[a-z]+)?', '', message.text).strip()
+def remove_command(content):
+    return re.sub(r'^/[a-z]+(@[a-z]+)?', '', content).strip()
 
 
 if __name__ == '__main__':
