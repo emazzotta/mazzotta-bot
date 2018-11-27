@@ -1,5 +1,6 @@
-.idea
-venv
-*.iml
-nohup.out
 *.http
+*.iml
+.env*
+.idea
+nohup.out
+venv
