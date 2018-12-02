@@ -49,7 +49,7 @@ def bot_voice(message):
     chat_id = message.chat.id
     voice_text = remove_command(message.text)
     voice_text = remove_dangerous_characters(voice_text)
-    logger.info(f'Bot voice invoked in {chat_id}')
+    logger.info(f'Bot voice invoked in {chat_id}, text: "{voice_text}"')
 
     if len(voice_text) == 0:
         bot.send_message(chat_id, f'Okay, but what? E.g. /say hello')
@@ -103,12 +103,12 @@ def is_invalid_command(message):
     return not any(message.text.startswith(f'/{valid}') for valid in COMMANDS.keys())
 
 
-def remove_dangerous_characters(voice_text):
-    return re.sub(r'[^a-zA-Z0-9!@%&*()_+=.,<>;: ]', '', voice_text)
+def remove_dangerous_characters(text):
+    return re.sub(r'[^a-zA-Z0-9!@%&*()_+=.,<>;: ]', '', text)
 
 
-def remove_command(content):
-    return re.sub(r'^/[a-z]+(@[a-z]+)?', '', content).strip()
+def remove_command(text):
+    return re.sub(r'^/[a-z]+(@[\S]*)?', '', text).strip()
 
 
 if __name__ == '__main__':
