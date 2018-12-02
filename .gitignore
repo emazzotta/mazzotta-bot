@@ -1,5 +1,6 @@
 *.http
 *.iml
+*.pyc
 .env*
 .idea
 nohup.out
