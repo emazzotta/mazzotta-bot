@@ -5,7 +5,6 @@ LABEL maintainer="hello@mazzotta.me"
 ENV PYTHONPATH /app:$PYTHONPATH
 ENV TZ=Europe/Zurich
 
-RUN mkdir /app
 WORKDIR /app
 
 COPY requirements.txt /app
