@@ -17,7 +17,7 @@ bot = telebot.TeleBot(os.environ.get('BOT_API_TOKEN'))
 
 COMMANDS = {
     'help': 'Show this text',
-    'say': 'Ask the bot to say something in a bot voice',
+    'say': 'Say something in a bot voice (/say [lang=de] <text>)',
     'zhaw': 'Show current ZHAW stats',
 }
 
@@ -44,6 +44,13 @@ def superhelp(message):
     bot.send_message(chat_id, superhelp_text)
 
 
+def extract_language_and_text(voice_text):
+    results = re.match('(((lang=)([A-Za-z]{2}))?(.*))', voice_text).groups()
+    text = results[4]
+    language = results[3]
+    return 'en' if language is None else language.strip(), text.strip()
+
+
 @bot.message_handler(commands=['say'])
 def bot_voice(message):
     chat_id = message.chat.id
@@ -55,10 +62,12 @@ def bot_voice(message):
         bot.send_message(chat_id, f'Okay, but what? E.g. /say hello')
         return
 
+    language, text = extract_language_and_text(voice_text)
+
     bot.send_message(chat_id, "Hold on! I'm recording myself...")
     file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
     text_file = f'/app/in/{file_name}.txt'
-    open(text_file, 'w+').write(voice_text)
+    open(text_file, 'w+').write(f'{language}\n{text}')
 
     voice_file = f'/app/out/{file_name}.mp3'
     sleep_times = 0.0

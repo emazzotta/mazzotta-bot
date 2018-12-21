@@ -7,9 +7,6 @@ ENV TZ=Europe/Zurich
 
 WORKDIR /app
 
-COPY requirements.txt /app
-COPY src /app/src
-
 RUN apk add --update --no-cache \
     bash \
     bc \
@@ -23,6 +20,9 @@ RUN apk add --update --no-cache \
     && wget https://raw.githubusercontent.com/emazzotta/dotfiles/master/bin/progressbar -O /usr/local/bin/progressbar \
     && chmod 755 /usr/local/bin/progressbar
 
+COPY requirements.txt /app
 RUN pip install -r requirements.txt
+
+COPY src /app/src
 
 CMD ["python", "src/bot.py"]

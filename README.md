@@ -9,7 +9,7 @@
 |Command|Action|
 |---|---|
 |/help|Show this text|
-|/say|Ask the bot to say something in a bot voice|
+|/say|Say something in a bot voice (/say [lang=de] <text>)|
 |/zhaw|Show current ZHAW stats|
 
 ## Getting Started
