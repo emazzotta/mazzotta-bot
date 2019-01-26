@@ -113,7 +113,7 @@ def is_invalid_command(message):
 
 
 def remove_dangerous_characters(text):
-    return re.sub(r'[^\w!@%&*()_+=.,<>;: ]', '', text)
+    return re.sub(r'[^a-zA-Z0-9!@%&*()_+=.,<>;: ]', '', text)
 
 
 def remove_command(text):
