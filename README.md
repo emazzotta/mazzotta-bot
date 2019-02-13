@@ -9,6 +9,7 @@
 |Command|Action|
 |---|---|
 |/help|Show this text|
+|/s|Explain what /s stands for|
 |/say|Say something in a bot voice (/say [lang=de] <text>)|
 |/zhaw|Show current ZHAW stats|
 

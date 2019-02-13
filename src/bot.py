@@ -17,6 +17,7 @@ bot = telebot.TeleBot(os.environ.get('BOT_API_TOKEN'))
 
 COMMANDS = {
     'help': 'Show this text',
+    's': 'Explain what /s stands for',
     'say': 'Say something in a bot voice (/say [lang=de] <text>)',
     'zhaw': 'Show current ZHAW stats',
 }
@@ -49,6 +50,13 @@ def extract_language_and_text(voice_text):
     text = results[4]
     language = results[3]
     return 'en' if language is None else language.strip(), text.strip()
+
+
+@bot.message_handler(commands=['s'])
+def help_info(message):
+    chat_id = message.chat.id
+    logger.info(f'Sending /s info to {chat_id}')
+    bot.send_message(chat_id, '`/s` stands for sarcasm. Typically texts ending in `/s` are not to be taken seriously.', parse_mode="Markdown")
 
 
 @bot.message_handler(commands=['say'])
