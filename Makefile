@@ -14,7 +14,7 @@ all: build
 
 .PHONY: build
 build:
-	@docker build --file Dockerfile -t emazzotta/mazzotta-bot .
+	@docker build --no-cache --file Dockerfile -t emazzotta/mazzotta-bot .
 
 .PHONY: push
 push:
