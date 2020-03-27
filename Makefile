@@ -26,7 +26,7 @@ run:
 
 .PHONY: release
 release:
-	@docker run cdrx/rancher-gitlab-deploy upgrade --rancher-url ${RANCHER_URL} --rancher-key ${RANCHER_ACCESS_KEY} --rancher-secret ${RANCHER_SECRET_KEY} --stack telegram-bot --service telegram-bot --sidekicks --wait-for-upgrade-to-finish --finish-upgrade
+	@kubectl rollout restart -n telegram-bot deployment.apps/telegram-bot-deployment
 
 # -----------------------------------------------------------------------------
 # DEVELOPMENT
