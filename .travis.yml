@@ -4,4 +4,4 @@ services:
 - docker
 script:
   - make build
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin ; make push && make release ; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin ; make push ; fi
