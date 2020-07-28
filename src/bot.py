@@ -105,6 +105,14 @@ def send_zhaw_statistics_to_optimizers():
     bot.send_message(os.environ.get('OPTIMIZER_CHAT_ID'), show_zhaw_statistics())
 
 
+def show_memento_mori():
+    return os.popen(f'memento_mori "1994-09-07 14:00:00" "2076-06-06 12:00:00"').read()
+
+
+def send_memento_mori_to_self():
+    bot.send_message(os.environ.get('SELF_CHAT_ID'), show_memento_mori())
+
+
 @bot.message_handler(func=lambda message: is_invalid_command(message))
 def unknown_command(message):
     chat_id = message.chat.id
@@ -130,8 +138,7 @@ def remove_command(text):
 
 if __name__ == '__main__':
     scheduler = BackgroundScheduler()
-    # cron scheduling example
-    # scheduler.add_job(send_zhaw_statistics_to_optimizers, 'cron', day_of_week='mon', hour=8, minute=0)
+    scheduler.add_job(send_memento_mori_to_self, 'cron', hour=8, minute=0)
     scheduler.start()
 
     try:

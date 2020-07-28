@@ -17,6 +17,10 @@ RUN apk add --update --no-cache \
     && echo $TZ > /etc/timezone \
     && wget https://raw.githubusercontent.com/emazzotta/dotfiles/master/bin/kw -O /usr/local/bin/kw \
     && chmod 755 /usr/local/bin/kw \
+    && wget https://raw.githubusercontent.com/emazzotta/dotfiles/master/bin/count_down -O /usr/local/bin/count_down \
+    && chmod 755 /usr/local/bin/count_down \
+    && wget https://raw.githubusercontent.com/emazzotta/dotfiles/master/bin/memento_mori -O /usr/local/bin/memento_mori \
+    && chmod 755 /usr/local/bin/memento_mori \
     && wget https://raw.githubusercontent.com/emazzotta/dotfiles/master/bin/progressbar -O /usr/local/bin/progressbar \
     && chmod 755 /usr/local/bin/progressbar
 
